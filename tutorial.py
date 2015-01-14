@@ -141,7 +141,7 @@ def comment(lang):
 
     if not website.tutorial_comment:
         flash(_('Not available to publish comments.'), 'danger')
-    elif not website.tutorial_anonymous and not session['user']:
+    elif not website.tutorial_anonymous and not session.get('user'):
         flash(_('Not available to publish comments and anonymous users.' \
             ' Please, login in'), 'danger')
     elif not comment or not tutorial:
