@@ -23,9 +23,6 @@ GALATEA_WEBSITE = current_app.config.get('TRYTON_GALATEA_SITE')
 LIMIT = current_app.config.get('TRYTON_PAGINATION_TUTORIAL_LIMIT', 20)
 COMMENTS = current_app.config.get('TRYTON_TUTORIAL_COMMENTS', True)
 WHOOSH_MAX_LIMIT = current_app.config.get('WHOOSH_MAX_LIMIT', 500)
-
-TUTORIAL_FIELD_NAMES = ['name', 'slug', 'description', 'comment', 'total_comments',
-    'metakeywords', 'user', 'user.rec_name', 'tutorial_create_date']
 TUTORIAL_SCHEMA_PARSE_FIELDS = ['title', 'content']
 
 def _visibility():
@@ -102,7 +99,7 @@ def search(lang):
         ]
     order = [('tutorial_create_date', 'DESC'), ('id', 'DESC')]
 
-    tutorials = Tutorial.search_read(domain, order=order, fields_names=TUTORIAL_FIELD_NAMES)
+    tutorials = Tutorial.search(domain, order=order)
 
     pagination = Pagination(page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
 
@@ -134,7 +131,7 @@ def comment(lang):
         ('visibility', 'in', _visibility()),
         ('websites', 'in', [GALATEA_WEBSITE]),
         ]
-    tutorials = Tutorial.search_read(domain, limit=1, fields_names=TUTORIAL_FIELD_NAMES)
+    tutorials = Tutorial.search(domain, limit=1)
     if not tutorials:
         abort(404)
     tutorial, = tutorials
@@ -230,7 +227,7 @@ def key(lang, key):
     offset = (page-1)*LIMIT
 
     order = [('tutorial_create_date', 'DESC'), ('id', 'DESC')]
-    tutorials = Tutorial.search_read(domain, offset, LIMIT, order, TUTORIAL_FIELD_NAMES)
+    tutorials = Tutorial.search(domain, offset, LIMIT, order)
 
     pagination = Pagination(page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
 
@@ -292,7 +289,7 @@ def users(lang, user):
         abort(404)
 
     order = [('tutorial_create_date', 'DESC'), ('id', 'DESC')]
-    tutorials = Tutorial.search_read(domain, offset, LIMIT, order, TUTORIAL_FIELD_NAMES)
+    tutorials = Tutorial.search(domain, offset, LIMIT, order)
 
     pagination = Pagination(page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
 
@@ -338,7 +335,7 @@ def tutorials(lang):
     offset = (page-1)*LIMIT
 
     order = [('tutorial_create_date', 'DESC'), ('id', 'DESC')]
-    tutorials = Tutorial.search_read(domain, offset, LIMIT, order, TUTORIAL_FIELD_NAMES)
+    tutorials = Tutorial.search(domain, offset, LIMIT, order)
 
     pagination = Pagination(page=page, total=total, per_page=LIMIT, display_msg=DISPLAY_MSG, bs_version='3')
 
