@@ -222,6 +222,13 @@ def key(lang, key):
         abort(404)
     website, = websites
 
+    # view
+    if request.args.get('view'):
+        view = 'list'
+        if request.args.get('view') == 'grid':
+            view = 'grid'
+        session['tutorial_view'] = view
+
     try:
         page = int(request.args.get('page', 1))
     except ValueError:
@@ -291,6 +298,13 @@ def users(lang, user):
         abort(404)
     user, = users
 
+    # view
+    if request.args.get('view'):
+        view = 'list'
+        if request.args.get('view') == 'grid':
+            view = 'grid'
+        session['tutorial_view'] = view
+
     try:
         page = int(request.args.get('page', 1))
     except ValueError:
@@ -350,6 +364,13 @@ def tutorials(lang):
     if not websites:
         abort(404)
     website, = websites
+
+    # view
+    if request.args.get('view'):
+        view = 'list'
+        if request.args.get('view') == 'grid':
+            view = 'grid'
+        session['tutorial_view'] = view
 
     try:
         page = int(request.args.get('page', 1))
